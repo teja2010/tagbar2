@@ -50,6 +50,9 @@ else:
 #print "tags path = "+tags_path
 #print "cscope path ="+cscope_path
 #print "file path = "+file_path
+# started work :)
+print tags_path
+print file_path
 if tags_path != file_path:
 	rel_file_path =  file_path.split(tags_path+'/')[1]
 else:
