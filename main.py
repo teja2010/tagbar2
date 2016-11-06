@@ -9,6 +9,8 @@ file_info = INFOfile.readline()
 file_info = file_info.split("\n")[0]
 file_path = "/".join(file_info.split("/")[:-1]) + "/"
 file_name = file_info.split("/")[-1]
+func_info = INFOfile.readline()
+print "function name ="+func_info
 
 INFOfile.close()
 #print "file full path = "+file_info
@@ -18,7 +20,7 @@ print "file name = "+file_name
 exit = 0
 #make all checks here
 
-#search for the tags file.
+#search for the tags and ctags file.
 tags_path = file_path
 cscope_path = file_path
 
@@ -59,7 +61,7 @@ else:
 	rel_file_path = ''
 #print "file path relative to tags = "+rel_file_path
 
-chetta_name  = "*".join(file_info.split('/'))+file_name
+chetta_name  = "*".join(file_info.split('/'))
 if exit == 0:
 	#grep the function names
 	os.system('grep ' + rel_file_path + file_name +' '+ tags_path + \
