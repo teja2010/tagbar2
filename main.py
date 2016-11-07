@@ -9,8 +9,9 @@ file_info = INFOfile.readline()
 file_info = file_info.split("\n")[0]
 file_path = "/".join(file_info.split("/")[:-1]) + "/"
 file_name = file_info.split("/")[-1]
-func_info = INFOfile.readline()
-print "function name ="+func_info
+func_info = INFOfile.readline().strip()
+func_name = func_info.split("(")[0]
+print "function name ="+func_name
 
 INFOfile.close()
 #print "file full path = "+file_info
@@ -40,7 +41,7 @@ while cscope_path != '':
 		cscope_path = "/".join(cscope_path.split("/")[:-1])
 		#print cscope_path
 
-
+print 'cscope path = '+cscope_path
 #if os.path.exists(tags_path+'/tags'):
 if os.path.exists(cscope_path+'/cscope.out'):
 	print "all files found."
@@ -66,7 +67,19 @@ if exit == 0:
 	#grep the function names
 	os.system('grep ' + rel_file_path + file_name +' '+ tags_path + \
 		'/tags > '+PluginLocation +'/chetta/' + '__'+ \
-		chetta_name +'__.t2')
+		chetta_name +'__tags.t2')
+	os.system('grep -G \'\\^'+func_name+'\' '+ tags_path + \
+		'/tags > '+PluginLocation +'/chetta/' + '__'+ \
+		chetta_name +'__func.t2')
+	os.system('cd '+cscope_path+'; cscope -L2 '+func_name + ' >> '+ \
+		chetta_name + '__csL2.t2')
+	os.system('cd '+cscope_path+'; cscope -L3 '+func_name + ' >> '+ \
+		chetta_name + '__csL2.t2')
+	os.system('cd '+cscope_path+'; cscope -L4 '+func_name + ' >> '+ \
+		chetta_name + '__csL2.t2')
+	os.system('echo \'__'+chetta_name+'__tags.t2\' >  '+PluginLocation+'/read_file')
+	os.system('echo \'__'+chetta_name+'__func.t2\' >> '+PluginLocation+'/read_file')
+	os.system('echo \'__'+chetta_name+'__csL2.t2\' >> '+PluginLocation+'/read_file')
 	#remove any old files. A max of 40 files can stay in the folder
 	#TODO: send output to dev/null to make it silent
 	os.system('ls '+PluginLocation+'/chetta/ -t | sed -e \'1,40d\' ' + \
